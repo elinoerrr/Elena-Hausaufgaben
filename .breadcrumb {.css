@@ -1,0 +1,38 @@
+.breadcrumb {
+  list-style: none;
+  padding: 3rem 0;
+  margin: 0;
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.breadcrumb li {
+  margin-right: 10px;
+  display: inline;
+}
+
+.breadcrumb li a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.breadcrumb li a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb li::after {
+  margin-left: 10px;
+}
+
+.breadcrumb li:last-child::after {
+  content: "";
+}
+
+/* Optional: Eine Box um die Breadcrumbs */
+.breadcrumb-container {
+  margin: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+}

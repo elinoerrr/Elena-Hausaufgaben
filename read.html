@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elena's PaperCSS</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/papercss@1.9.2/dist/paper.min.css"
+    />
+    <!DOCTYPE html>
+    <html lang="de">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Elena's PaperCSS</title>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/papercss@1.9.2/dist/paper.min.css"
+        />
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .article {
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+          }
+
+          .container-md {
+            width: 100%;
+            margin: 20px auto;
+            text-align: left;
+          }
+
+          .container-xs {
+            width: 60%;
+            background-color: #f0f0f0; /* Grauer Hintergrund */
+            padding: 15px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: leichter Schatten */
+            text-align: center;
+          }
+
+          h1,
+          h2 {
+            margin-bottom: 15px;
+          }
+
+          h4 {
+            font-size: 1rem;
+            margin-top: 10px;
+          }
+
+          footer {
+            width: 100%;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+          }
+        </style>
+      </head>
+      <body>
+        <ul class="breadcrumb border">
+          <li><a href="index.html">Startseite</a></li>
+        </ul>
+        <article class="article">
+          <a
+            href="https://www.weltderphysik.de/thema/hinter-den-dingen/wie-entsteht-nebel/"
+            ><h1>Wie entsteht Nebel</h1></a
+          >
+
+          <div class="container-md">
+            <p class="article-meta">von <a>Sven Titz / 22.11.2018</a></p>
+            <p class="text-lead">
+              Herbstzeit ist Nebelzeit. Das Phänomen, das uns manchmal die Sicht
+              nimmt, kann aber zu allen Jahreszeiten auftreten. Damit der
+              Wasserdampf in der Luft zu Tröpfchen kondensiert, muss sich die
+              Luft abkühlen oder die Feuchte zunehmen.
+            </p>
+            <p>
+              Nebel ist im Prinzip nichts anderes als eine Wolke an der
+              Erdoberfläche: In der Luft schweben unzählige Wassertröpfchen und
+              reflektieren das Licht. Dadurch „vernebeln“ sie uns die Sicht.
+              Zwar sieht Nebel immer gleich aus, doch er kann auf
+              unterschiedliche Weise entstehen. In jedem Fall muss die relative
+              Luftfeuchte – das Verhältnis zwischen aktuellem und maximal
+              möglichem Wasserdampfgehalt – hundert Prozent erreichen, sodass
+              der Wasserdampf verstärkt kondensiert. Im Herbst und Winter sind
+              die Nächte länger als die Tage, sodass sich die Luft lange
+              abkühlen kann. Dabei steigt dann die relative Luftfeuchte, denn
+              kalte Luft kann weniger Wasserdampf aufnehmen als warme. Wenn die
+              Luft nachts eine charakteristische Temperatur erreicht – Taupunkt
+              genannt –, beginnt der Wasserdampf zu kondensieren. Prompt ist der
+              Nebel da. Auch wenn die Temperatur aus anderen Gründen sinkt, kann
+              sich Nebel bilden. Nach einem Hagelgewitter im Sommer dauert es
+              beispielsweise eine Weile, bis die Eiskörner geschmolzen sind. So
+              lange liegen sie auf dem Boden und kühlen die feuchte
+              Umgebungsluft ab. Dabei lassen sie oft flache Nebelschwaden
+              entstehen. Eine Spezialform des Abkühlungsnebels ist mit dem Wind
+              verknüpft. Bringt Wind feuchte Luft über eine kältere Oberfläche,
+              kann sogenannter Advektionsnebel auftreten. Beobachten lässt sich
+              das Phänomen beispielsweise im Herbst an der deutschen Nord- oder
+              Ostseeküste, wenn der Wind vom Meer gen Küste weht und sich die
+              Landfläche zuvor stark abgekühlt hat. Der umgekehrte Fall tritt an
+              der Pazifikküste von Peru und Chile auf. Dort strömt warme Luft
+              vom Kontinent oft über das kalte Wasser des Humboldtstroms. In den
+              Bergen tritt eine weitere Spezialform des Abkühlungsnebels auf:
+              Gleitet feuchte Luft an einer Bergflanke in die Höhe, sinken
+              Luftdruck und Temperatur. Sobald es zur Kondensation kommt,
+              entsteht Hebungsnebel. Verdunstet Wasser aus einem See oder einem
+              Fluss in kalte Luft hinein, kann sich ebenfalls Nebel bilden.
+              Dieses für den Herbst typische Phänomen bezeichnet man als
+              Seerauch. Verdunstungsnebel ist aber auch im Sommer zu beobachten,
+              zum Beispiel über dem Belag einer noch warmen Straße, die ein
+              kurzer Regenschauer angefeuchtet hat. Darüber hinaus können
+              Wetterfronten diese Art von Nebel auslösen: Fällt an einer
+              Warmfront beispielsweise Regen in eine bodennahe Luftmasse, die
+              noch kalt ist, bilden sich durch Verdunstung des Regenwassers oft
+              charakteristische Nebelschwaden.
+              <img
+                src="./csm_20181120_Mischungsnebel_WdP_0d5c53d179 (1).webp"
+                class="float-right"
+              />
+              Eine weitere Nebelform entsteht, wenn sich zwei feuchte Luftmassen
+              vermischen. Die maximale Menge an Wasserdampf, die Luft aufnehmen
+              kann, nimmt ungefähr exponentiell mit der Temperatur zu.
+              Angenommen die beiden aufeinandertreffenden Luftmassen hätten eine
+              Temperatur von 10 und 20 Grad Celsius und die relative Feuchte
+              läge jeweils unter hundert Prozent, dann würde noch kein Nebel
+              herrschen. Sobald sich die Luftmassen allerdings vermengen, bildet
+              sich Nebel. Denn für die Temperatur der gemischten Luft – nämlich
+              15 Grad Celsius – ist die maximale Aufnahmekapazität an
+              Wasserdampf erschöpft. Die Luft ist gesättigt oder sogar
+              übersättigt und es kommt zur Kondensation. Im kleinen Rahmen kann
+              jeder selbst Mischungsnebel produzieren. Es genügt, an einem
+              kalten Wintertag in die frostige Luft auszuatmen. In der Mischung
+              aus Atemluft und Umgebungsluft kondensiert der Wasserdampf sofort.
+              Das Wölkchen, das entsteht, ist also nichts anderes als ein Hauch
+              von Mischungsnebel. Im gewöhnlichen Wettergeschehen ist
+              Mischungsnebel aber sehr selten. Am ehesten lässt er sich noch an
+              Meeresküsten beobachten. Dort mischt sich gelegentlich feuchtwarme
+              Luft vom Meer mit kalter Luft vom Land. In allen bisher
+              geschilderten Formen des Nebels sind es Tröpfchen flüssigen
+              Wassers, die das Phänomen hervorrufen. Selbst unter dem
+              Gefrierpunkt bleiben die Wassertröpfchen in der Luft zunächst
+              flüssig. Man spricht von unterkühltem Wasser. Die Tröpfchen können
+              bei moderaten Minustemperaturen nämlich nur an festen Oberflächen
+              gefrieren. Bei großer Kälte aber kann Nebel auch gänzlich aus
+              Eiskristallen bestehen. Dazu muss die Temperatur unter minus 35
+              Grad Celsius sinken. Eisnebel tritt darum vorwiegend in den
+              Polarregionen auf.
+            </p>
+          </div>
+          <div class="container-xs">
+            <h2>Wie groß sind die Wassertröpfchen im Nebel?</h2>
+            <br />
+            <h4>
+              Die Größe der Nebeltröpfchen ist unterschiedlich, bewegt sich aber
+              in einem engen Bereich. Beobachtet wurden Tröpfchen mit einem
+              Durchmesser zwischen einem hundertstel und einem zehntel
+              Millimeter. Werden die Tröpfchen größer, fallen sie wegen ihres
+              Gewichts recht bald zu Boden. Nebel enthält weniger flüssiges
+              Wasser, als man vielleicht annehmen würde: Das Gewicht aller
+              Tröpfchen zusammen pro Kubikmeter beträgt typischerweise zwischen
+              einem hundertstel und einem drittel Gramm.
+            </h4>
+          </div>
+        </article>
+      </body>
+
+      <footer>© Welt der Physik</footer>
+    </html>
+  </head>
+</html>

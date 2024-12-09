@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elena's PaperCSS</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/papercss@1.9.2/dist/paper.min.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #fdfdfd;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-bottom: 80px;
+      }
+
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+      }
+
+      header {
+        position: relative;
+        width: 100%;
+        height: 30vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 70px;
+      }
+
+      .header-container {
+        position: relative;
+        margin-top: 25rem;
+        width: 100%;
+        max-width: 700px;
+        border: 1px solid #030303;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        animation: moveBackground 20s infinite alternate ease-in-out;
+      }
+
+      .header-container img {
+        width: 100%;
+        margin-right: 30%;
+        height: auto;
+        display: block;
+      }
+
+      @keyframes moveBackground {
+        0% {
+          transform: scale(1) translate(0, 0);
+        }
+        50% {
+          transform: scale(1.03) translate(10px, -10px);
+        }
+        100% {
+          transform: scale(1) translate(0, 0);
+        }
+      }
+
+      .clouds {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 150%;
+        height: 150%;
+        background: url("./wolke.png") repeat;
+        opacity: 2;
+        z-index: 79;
+        animation: moveClouds 20s infinite alternate ease-in-out,
+          resizeClouds 15s infinite alternate ease-in-out;
+      }
+
+      @keyframes moveClouds {
+        0% {
+          transform: translate(-10%, -10%);
+        }
+        25% {
+          transform: translate(5%, 0);
+        }
+        50% {
+          transform: translate(15%, 10%);
+        }
+        75% {
+          transform: translate(-5%, 5%);
+        }
+        100% {
+          transform: translate(-10%, -10%);
+        }
+      }
+
+      @keyframes resizeClouds {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.2);
+        }
+      }
+
+      .header-text {
+        position: absolute;
+        top: 30%;
+        left: 40%;
+        transform: translate(-40%, -60%);
+        z-index: 2;
+        text-align: center;
+        color: white;
+        font-size: 2rem;
+        font-family: "Arial", sans-serif;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .header-text h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        font-weight: bold;
+      }
+
+      .header-text h2 {
+        margin: 0;
+        font-size: 1.3rem;
+      }
+
+      .article {
+        margin-top: 20rem;
+        padding: 20px;
+        text-align: center;
+        flex: 1; /
+      }
+
+      .article-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        margin-bottom: 60px;
+      }
+
+      footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+        background: #f4f4f4;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="border fixed split-nav">
+      <div class="nav-brand">
+        <h3><a href="elena.html">Elena'sCSS</a></h3>
+      </div>
+      <div class="collapsible">
+        <input id="collapsible1" type="checkbox" name="collapsible1" />
+        <label for="collapsible1">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </label>
+        <div class="collapsible-body">
+          <ul class="inline">
+            <li><a href="dokumentation.html">Documentation</a></li>
+            <li><a href="test-spiel.html">Quiz</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+      <div class="header-container">
+        <div class="clouds"></div>
+        <img src="./richtiger schwan.jpg" alt="Schwan im Anflug ins Wasser" />
+        <div class="header-text">
+          <h1>Willkommen bei meinen HA's!</h1>
+          <h2>HA's steht für Hausaufgaben's</h2>
+        </div>
+      </div>
+    </header>
+
+    <article class="article">
+      <h1 class="article-title"><a href="">Wie entsteht Nebel?</a></h1>
+      <p class="article-meta">von<a href="#">Sven Titz / 22.11.2018</a></p>
+      <p class="text-lead">
+        Herbstzeit ist Nebelzeit. Das Phänomen, das uns manchmal die Sicht
+        nimmt, kann aber zu allen Jahreszeiten auftreten. Damit der Wasserdampf
+        in der Luft zu Tröpfchen kondensiert, muss sich die Luft abkühlen oder
+        die Feuchte zunehmen..
+      </p>
+      <p>
+        Nebel ist im Prinzip nichts anderes als eine Wolke an der Erdoberfläche:
+        In der Luft schweben unzählige Wassertröpfchen und reflektieren das
+        Licht. Dadurch „vernebeln“ sie uns die Sicht.
+      </p>
+
+      <div class="article-buttons">
+        <a href="read.html"
+          ><button class="btn-success-outline">weiter lesen</button></a
+        >
+        <a href="kommentare.html"
+          ><button class="btn-warning-outline">5 Kommentare</button></a
+        >
+      </div>
+    </article>
+
+    <footer>
+      <h6><p>&copy; 2024 Elena's PaperCSS. Alle Rechte vorbehalten.</p></h6>
+    </footer>
+  </body>
+</html>

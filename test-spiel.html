@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<!--ICH MUSS UNBEDINGT SCHAUEN; DASS DIE FALSCHEN LÖSUNGEN NICHT BEIM WIEDERHOLEN VOrm befragen angezeigt werDEN-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML & CSS Quiz</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/papercss@1.9.2/dist/paper.min.css"
+    />
+    <style>
+      .quiz-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .quiz-box {
+        margin: 2rem 0;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .progress-bar {
+        height: 20px;
+        background-color: #e0e0e0;
+        margin-bottom: 1rem;
+      }
+
+      .progress-bar-inner {
+        height: 100%;
+        background-color: #4caf50;
+        width: 0%;
+      }
+
+      .answer-btn {
+        margin-bottom: 10px;
+        width: 100%;
+      }
+
+      .message {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        text-align: center;
+      }
+
+      .input-container {
+        margin-bottom: 20px;
+      }
+
+      .result-chart {
+        margin-top: 30px;
+        width: 100%;
+        max-width: 600px;
+        height: 300px;
+      }
+
+      .input-container input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class="breadcrumb border">
+      <li><a href="index.html">Startseite</a></li>
+      <li><a href="dokumentation.html">Dokumentation</a></li>
+      <li><a href="test-spiel.html">Quiz</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+
+    <div class="quiz-container">
+      <div id="cover" class="quiz-box">
+        <h1>HTML & CSS Quiz</h1>
+        <h3>Teste dein Wissen in der Webentwicklung mit HTML und CSS</h3>
+        <div class="input-container">
+          <input
+            type="text"
+            id="username"
+            class="paper-input"
+            placeholder="Gib deinen Namen ein (optional)"
+          />
+        </div>
+        <button id="start-btn" class="paper-btn" onclick="startQuiz()">
+          Weiter
+        </button>
+      </div>
+
+      <div id="question-count" class="quiz-box" style="display: none">
+        <h2>Wie viele Fragen möchtest du beantworten?</h2>
+        <p>Wähle zwischen 1 und 100 Fragen aus</p>
+        <input
+          type="number"
+          id="question-number"
+          class="paper-input"
+          placeholder="Anzahl der Fragen"
+          min="1"
+          max="100"
+        />
+        <button
+          id="start-quiz-btn"
+          class="paper-btn"
+          onclick="startQuizQuestions()"
+        >
+          Los geht's!
+        </button>
+      </div>
+
+      <div id="quiz" class="quiz-box" style="display: none">
+        <div class="progress-bar">
+          <div id="progress" class="progress-bar-inner"></div>
+        </div>
+        <h2 id="question-text"></h2>
+        <div id="answers-container"></div>
+        <div id="message" class="message"></div>
+        <button
+          id="next-btn"
+          class="paper-btn"
+          onclick="nextQuestion()"
+          style="display: none"
+        >
+          Nächste Frage
+        </button>
+      </div>
+
+      <div id="result" class="quiz-box" style="display: none">
+        <h2>Quiz beendet!</h2>
+        <p id="score"></p>
+        <div id="result-chart" class="result-chart" style="display: none">
+          <canvas id="resultChart"></canvas>
+        </div>
+        <div id="incorrect-questions-list" style="display: none">
+          <h3>Falsch beantwortete Fragen:</h3>
+          <ul id="incorrect-questions"></ul>
+        </div>
+        <button
+          class="btn-success-outline"
+          id="retry-btn"
+          onclick="retryQuiz()"
+        >
+          Fehler gut machen
+        </button>
+        <a
+          href="./schokierte kuh.jpg"
+          alt="schokierte Kuh"
+          class="paper-btn btn-danger-outline"
+          >Verabschieden</a
+        >
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      let username = "";
+      let totalQuestions = 0;
+      let currentQuestion = 0;
+      let score = 0;
+      let questions = [];
+      let incorrectQuestions = [];
+      const quizData = [
+        {
+          question: "Was ist das HTML-Tag für einen Absatz?",
+          answers: {
+            A: "<div></div>",
+            B: "<p></p>",
+            C: "<span></span>",
+            D: "<h1></h1>",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question: "Welches CSS-Property ändert die Textfarbe?",
+          answers: {
+            A: "font-size",
+            B: "color",
+            C: "background-color",
+            D: "margin",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question: "Was bedeutet CSS?",
+          answers: {
+            A: "Cascading Style Sheets",
+            B: "Creative Styling Sheets",
+            C: "Complex Style Sheets",
+            D: "Content Style Sheets",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um einen Link zu erstellen?",
+          answers: {
+            A: "<link></link>",
+            B: "<a></a>",
+            C: "<href></href>",
+            D: "<url></url>",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question: "Wie fügt man einen Kommentar in CSS hinzu?",
+          answers: {
+            A: "// Dies ist ein Kommentar",
+            B: "/* Dies ist ein Kommentar */",
+            C: "// Kommentar",
+            D: "<!-- Kommentar -->",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question:
+            "Welche Eigenschaft wird verwendet, um den Abstand zwischen den Elementen in CSS zu steuern?",
+          answers: {
+            A: "margin",
+            B: "padding",
+            C: "spacing",
+            D: "border-spacing",
+          },
+          correctAnswer: "A",
+        },
+
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um ein Bild hinzuzufügen?",
+          answers: {
+            A: "<image src='bild.jpg' />",
+            B: "<img src='bild.jpg' />",
+            C: "<pic src='bild.jpg' />",
+            D: "<photo src='bild.jpg' />",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question: "Was bedeutet das 'id' Attribut in HTML?",
+          answers: {
+            A: "Es gibt einem Element eine eindeutige Identifikation",
+            B: "Es definiert eine Klasse für das Element",
+            C: "Es fügt ein Bild zum Element hinzu",
+            D: "Es erstellt einen Link für das Element",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Wie definierst du eine Klasse in CSS?",
+          answers: {
+            A: "class = 'classname'",
+            B: "class: classname",
+            C: ".classname { }",
+            D: "#classname { }",
+          },
+          correctAnswer: "C",
+        },
+        {
+          question: "Wie lautet das HTML-Tag für eine ungeordnete Liste?",
+          answers: {
+            A: "<ol></ol>",
+            B: "<ul></ul>",
+            C: "<list></list>",
+            D: "<li></li>",
+          },
+          correctAnswer: "B",
+        },
+
+        {
+          question: "Wie fügst du einen Link in HTML ein?",
+          answers: {
+            A: "<a href='url'>Text</a>",
+            B: "<link href='url'>Text</link>",
+            C: "<url href='url'>Text</url>",
+            D: "<link url='url'>Text</link>",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Welche Eigenschaft ändert die Hintergrundfarbe in CSS?",
+          answers: {
+            A: "background-color",
+            B: "bgcolor",
+            C: "color",
+            D: "background-image",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um eine Tabelle zu erstellen?",
+          answers: {
+            A: "<table></table>",
+            B: "<tab></tab>",
+            C: "<tr></tr>",
+            D: "<td></td>",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Wie änderst du die Schriftart in CSS?",
+          answers: {
+            A: "font-family",
+            B: "text-font",
+            C: "font-type",
+            D: "text-style",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches CSS-Property wird verwendet, um den Abstand zwischen den Zeilen zu ändern?",
+          answers: {
+            A: "line-height",
+            B: "margin",
+            C: "padding",
+            D: "height",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Welches HTML-Tag wird für eine Tabellenzeile verwendet?",
+          answers: {
+            A: "<table-row></table-row>",
+            B: "<tr></tr>",
+            C: "<row></row>",
+            D: "<table-line></table-line>",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question:
+            "Was passiert, wenn du die CSS-Eigenschaft 'display' auf 'none' setzt?",
+          answers: {
+            A: "Das Element wird unsichtbar, aber bleibt im Layout",
+            B: "Das Element wird vollständig aus dem Layout entfernt",
+            C: "Das Element wird transparent",
+            D: "Das Element wird fixiert und kann nicht mehr bewegt werden",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um einen Absatz zu erstellen?",
+          answers: {
+            A: "<p></p>",
+            B: "<text></text>",
+            C: "<div></div>",
+            D: "<span></span>",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches CSS-Property wird verwendet, um den Rand eines Elements zu ändern?",
+          answers: {
+            A: "border",
+            B: "padding",
+            C: "margin",
+            D: "spacing",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um eine Überschrift zu erstellen?",
+          answers: {
+            A: "<h1></h1>",
+            B: "<heading></heading>",
+            C: "<title></title>",
+            D: "<header></header>",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Was ist das Standardverhalten für ein 'div'-Tag in CSS?",
+          answers: {
+            A: "Inline",
+            B: "Block",
+            C: "None",
+            D: "Inline-block",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question: "Wie änderst du die Schriftgröße in CSS?",
+          answers: {
+            A: "font-size",
+            B: "text-size",
+            C: "size-font",
+            D: "text-font",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um ein Formular zu erstellen?",
+          answers: {
+            A: "<form></form>",
+            B: "<input></input>",
+            C: "<fieldset></fieldset>",
+            D: "<label></label>",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Wie fügst du ein Textfeld in ein HTML-Formular ein?",
+          answers: {
+            A: "<input type='text' />",
+            B: "<textarea></textarea>",
+            C: "<input type='textarea' />",
+            D: "<textfield></textfield>",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Was bedeutet das 'alt'-Attribut in HTML?",
+          answers: {
+            A: "Es beschreibt den Alternativtext eines Bildes",
+            B: "Es definiert die Farbe eines Bildes",
+            C: "Es gibt den Titel eines Bildes an",
+            D: "Es beschreibt die Größe eines Bildes",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um eine Checkbox zu erstellen?",
+          answers: {
+            A: "<checkbox></checkbox>",
+            B: "<input type='checkbox' />",
+            C: "<select></select>",
+            D: "<input type='radio' />",
+          },
+          correctAnswer: "B",
+        },
+
+        {
+          question: "Was ist ein 'responsive' Design?",
+          answers: {
+            A: "Ein Design, das sich an unterschiedliche Bildschirmgrößen anpasst",
+            B: "Ein Design, das nur auf mobilen Geräten funktioniert",
+            C: "Ein Design, das nur auf großen Bildschirmen funktioniert",
+            D: "Ein Design, das keine Bilder enthält",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welche Eigenschaft wird verwendet, um den Text fett zu machen?",
+          answers: {
+            A: "font-weight",
+            B: "font-style",
+            C: "font-size",
+            D: "text-bold",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Wie fügst du eine horizontale Linie in HTML ein?",
+          answers: {
+            A: "<line></line>",
+            B: "<hr />",
+            C: "<horizontal></horizontal>",
+            D: "<br />",
+          },
+          correctAnswer: "B",
+        },
+        {
+          question:
+            "Wie änderst du den Abstand zwischen den Wörtern in einem Text in CSS?",
+          answers: {
+            A: "word-spacing",
+            B: "letter-spacing",
+            C: "text-spacing",
+            D: "text-indent",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Wie änderst du den Abstand zwischen den Buchstaben in CSS?",
+          answers: {
+            A: "letter-spacing",
+            B: "text-spacing",
+            C: "word-spacing",
+            D: "font-spacing",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Wie erstellst du einen Hover-Effekt für ein Element in CSS?",
+          answers: {
+            A: "element:hover",
+            B: "element:hover-effect",
+            C: "element:active",
+            D: "element:focus",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welches HTML-Tag wird verwendet, um eine Liste von Links zu erstellen?",
+          answers: {
+            A: "<ul></ul>",
+            B: "<ol></ol>",
+            C: "<nav></nav>",
+            D: "<link></link>",
+          },
+          correctAnswer: "C",
+        },
+        {
+          question: "Was bedeutet der Begriff 'Float' in CSS?",
+          answers: {
+            A: "Er ermöglicht es einem Element, sich an den linken oder rechten Rand eines Containers zu bewegen",
+            B: "Es wird verwendet, um den Text innerhalb eines Containers zu zentrieren",
+            C: "Es ist eine Eigenschaft, die den Hintergrund eines Elements ändert",
+            D: "Es legt den Abstand zwischen den Elementen fest",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question:
+            "Welche Eigenschaft wird verwendet, um die Schriftart in CSS zu ändern?",
+          answers: {
+            A: "font-family",
+            B: "font-size",
+            C: "font-type",
+            D: "font-style",
+          },
+          correctAnswer: "A",
+        },
+        {
+          question: "Was ist das HTML-Tag für eine geordnete Liste?",
+          answers: {
+            A: "<ul></ul>",
+            B: "<ol></ol>",
+            C: "<list></list>",
+            D: "<li></li>",
+          },
+          correctAnswer: "B",
+        },
+      ];
+
+      function startQuiz() {
+        username = document.getElementById("username").value || "Gast";
+        document.getElementById("cover").style.display = "none";
+        document.getElementById("question-count").style.display = "block";
+      }
+
+      function startQuizQuestions() {
+        totalQuestions =
+          parseInt(document.getElementById("question-number").value) || 10;
+        if (totalQuestions > quizData.length) totalQuestions = quizData.length;
+
+        questions = shuffleArray(quizData).slice(0, totalQuestions);
+        currentQuestion = 0;
+        score = 0;
+        incorrectQuestions = [];
+
+        document.getElementById("question-count").style.display = "none";
+        document.getElementById("quiz").style.display = "block";
+
+        loadQuestion();
+      }
+
+      function loadQuestion() {
+        const question = questions[currentQuestion];
+        document.getElementById("question-text").textContent =
+          question.question;
+        const answersContainer = document.getElementById("answers-container");
+        answersContainer.innerHTML = "";
+
+        Object.entries(question.answers).forEach(([key, value]) => {
+          const button = document.createElement("button");
+          button.classList.add("paper-btn");
+          button.classList.add("answer-btn");
+          button.textContent = `${key}) ${value}`;
+          button.onclick = () => checkAnswer(key);
+          answersContainer.appendChild(button);
+        });
+
+        updateProgressBar();
+      }
+
+      function checkAnswer(answer) {
+        const question = questions[currentQuestion];
+        const message = document.getElementById("message");
+
+        if (answer === question.correctAnswer) {
+          score++;
+          message.textContent = getRandomCorrectMessage();
+          message.style.color = "green";
+        } else {
+          message.textContent = `Falsch! Die richtige Antwort ist ${question.correctAnswer}`;
+          message.style.color = "red";
+          incorrectQuestions.push(question);
+        }
+
+        document.getElementById("next-btn").style.display = "block";
+      }
+
+      function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < totalQuestions) {
+          loadQuestion();
+          document.getElementById("message").textContent = "";
+          document.getElementById("next-btn").style.display = "none";
+        } else {
+          document.getElementById("quiz").style.display = "none";
+          document.getElementById("result").style.display = "block";
+          document.getElementById(
+            "score"
+          ).textContent = `Du hast ${score} von ${totalQuestions} richtig beantwortet!`;
+          displayChart();
+          showIncorrectQuestions();
+        }
+      }
+
+      function retryQuiz() {
+        document.getElementById("result").style.display = "none";
+        document.getElementById("quiz").style.display = "block";
+        currentQuestion = 0;
+        score = 0;
+
+        questions = incorrectQuestions;
+        incorrectQuestions = [];
+        loadQuestion();
+      }
+
+      function exitQuiz() {
+        alert("Danke fürs Spielen! Bis bald!");
+        window.location.reload();
+      }
+
+      function displayChart() {
+        const ctx = document.getElementById("resultChart").getContext("2d");
+        new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: ["Richtige Antworten", "Falsche Antworten"],
+            datasets: [
+              {
+                data: [score, totalQuestions - score],
+                backgroundColor: ["#28a745", "#dc3545"],
+              },
+            ],
+          },
+        });
+        document.getElementById("result-chart").style.display = "block";
+      }
+
+      function showIncorrectQuestions() {
+        const incorrectList = document.getElementById("incorrect-questions");
+        incorrectList.innerHTML = "";
+
+        incorrectQuestions.forEach((q) => {
+          const li = document.createElement("li");
+          li.textContent = q.question;
+          incorrectList.appendChild(li);
+        });
+        document.getElementById("incorrect-questions-list").style.display =
+          "block";
+      }
+
+      function updateProgressBar() {
+        const progress = (currentQuestion / totalQuestions) * 100;
+        document.getElementById("progress").style.width = progress + "%";
+      }
+
+      function getRandomCorrectMessage() {
+        const messages = [
+          "Richtig, weiter so.",
+          "Gut gemacht!",
+          "Wow, wenn deine Mama dich jetzt sehen könnte!",
+          "Langsam wird es!",
+          "Bald bist du ein Profi!",
+          "Da hat jemand Blut geleckt",
+          "Auch ein blindes Huhn, fängt mal ein Korn!",
+          "Du hast doch gemogelt, Halunke!",
+        ];
+        return messages[Math.floor(Math.random() * messages.length)];
+      }
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+    </script>
+  </body>
+</html>
